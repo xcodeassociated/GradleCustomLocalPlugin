@@ -1,4 +1,7 @@
 buildSrc/build
+*.class
+*.jar
+*.war
 
 ### macOS ###
 .DS_Store
