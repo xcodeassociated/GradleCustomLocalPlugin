@@ -1,0 +1,47 @@
+import com.peterabeles.gversion.GVersion
+
+// -------------------------------------------------- //
+repositories{
+  mavenCentral()
+}
+// -------------------------------------------------- //
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: com.baeldung.GreetingPlugin
+apply plugin: GVersion
+// -------------------------------------------------- //
+dependencies {
+  /* external dependencies */
+  compile 'org.slf4j:jcl-over-slf4j:1.7.12'
+  compile 'ch.qos.logback:logback-classic:1.1.3'
+  compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+}
+configurations.all {
+  exclude group: "commons-logging", module: "commons-logging"
+}
+// -------------------------------------------------- //
+greeting {
+  greeter = "World"
+  message = "Hello"
+}
+
+gversion {
+  srcDir       = "src/main/java/"
+  classPackage = "com.sample.project.version"
+  className    = "SampleVersion"
+  dateFormat   = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+  timeZone     = "UTC"
+  debug        = false
+  language     = "java"
+  explicitType = false
+}
+// -------------------------------------------------- //
+task fooTask {
+  println("foo task printout!")
+}
+// -------------------------------------------------- //
+build.dependsOn hello
+build.dependsOn fooTask
+project.compileJava.dependsOn(createVersionFile)
+// -------------------------------------------------- //
